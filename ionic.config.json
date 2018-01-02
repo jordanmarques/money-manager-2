@@ -2,5 +2,7 @@
   "name": "money-manager-2",
   "app_id": "786e27f0",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }
