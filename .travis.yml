@@ -35,8 +35,8 @@ before_script:
 
 script:
   - ionic cordova build android
-  - mv /home/travis/build/jordanmarques/money-manager-2/platforms/android/app/build/outputs/apk/debug/app-debug.apk /home/travis/build/jordanmarques/money-manager-2/platforms/android/app/build/outputs/apk/debug/money-manager-2-unsigned.apk
-  - export APK_UNSIGNED_PATH=/home/travis/build/jordanmarques/money-manager-2/platforms/android/app/build/outputs/apk/debug/money-manager-2-unsigned.apk
+  - mv /home/travis/build/jordanmarques/money-manager-2/platforms/android/build/outputs/apk/debug/app-debug.apk /home/travis/build/jordanmarques/money-manager-2/platforms/android/build/outputs/apk/debug/money-manager-2-unsigned.apk
+  - export APK_UNSIGNED_PATH=/home/travis/build/jordanmarques/money-manager-2/platforms/android/build/outputs/apk/debug/money-manager-2-unsigned.apk
 
 branches:
   only:
