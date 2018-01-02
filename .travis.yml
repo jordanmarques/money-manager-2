@@ -1,0 +1,71 @@
+sudo: false
+
+language: node_js
+node_js:
+  - "7.6.0"
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - openjdk-7-jdk
+    - lib32stdc++6
+    - lib32z1
+env:
+  CXX=g++-4.8
+
+install:
+  - npm install -g cordova ionic
+  - npm install
+
+before_script:
+  - wget --quiet http://dl.google.com/android/android-sdk_r24.4-linux.tgz
+  - sudo apt-get install xmlstarlet
+  - tar -xf android-sdk_r24.4-linux.tgz
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter build-tools-26.0.2
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter android-26
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-support
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-m2repository
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-google-m2repository
+  - export ANDROID_HOME=$PWD/android-sdk-linux
+  - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/26.0.2
+
+script:
+  - ionic cordova build android
+  - mv /home/travis/build/jordanmarques/money-manager-2/platforms/android/build/outputs/apk/debug/android-debug.apk /home/travis/build/jordanmarques/money-manager-2/platforms/android/build/outputs/apk/debug/money-manager-2-unsigned.apk
+  - export APK_UNSIGNED_PATH=/home/travis/build/jordanmarques/money-manager-2/platforms/android/build/outputs/apk/debug/money-manager-2-unsigned.apk
+
+branches:
+  only:
+    - master
+
+before_deploy:
+  - npm version major --no-git-tag-version
+  - export VERSION=$(cat package.json | grep version | head -1 | awk '{ print $2 }' | sed 's/[",]//g')
+  - echo -n VERSION=$VERSION
+  - xmlstarlet edit -L -u "/_:widget/@version" -v $VERSION config.xml
+  - git config --global user.name "Travis CI"
+  - git config --global user.email "builds@travis-ci.com"
+  - git tag $VERSION -a -m "Generated tag from package.json version"
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_KEY
+  file: $APK_UNSIGNED_PATH
+  skip_cleanup: true
+  on:
+    branch: master
+
+after_deploy:
+  - git remote rm origin
+  - git remote add origin https://$GITHUB_OAUTH_KEY@github.com/jordanmarques/money-manager-2.git
+  - git checkout master
+  - git add package.json config.xml
+  - git commit -m "[skip ci] set new version"
+  - git push --set-upstream origin master
+
+notifications:
+  email: false
