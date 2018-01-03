@@ -12,4 +12,16 @@ export class OperationsPage {
     this.balance = 300;
   }
 
+  credit(amount: number) {
+    if(!amount) return;
+
+    console.log(amount)
+  }
+
+  debit(amount: number) {
+    if(!amount) return;
+
+    console.log(amount)
+  }
+
 }

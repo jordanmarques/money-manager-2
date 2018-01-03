@@ -1,6 +1,7 @@
 page-operations {
 
   $margin-default: 10px;
+  overflow:hidden;
 
   .container {
     margin: $margin-default;
@@ -22,8 +23,8 @@ page-operations {
   .buttons-container {
     @extend .container;
     justify-content: center;
-    flex-direction: column;
-    height: 50%;
+    //flex-direction: column;
+    //height: 50%;
   }
 
 }

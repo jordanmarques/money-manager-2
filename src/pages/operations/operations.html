@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding no-bounce>
 
   <div class="balance-container">
     <div class="balance">{{ balance }}</div>
@@ -14,19 +14,19 @@
     <div>
       <ion-item>
         <ion-label fixed>Amount</ion-label>
-        <ion-input type="number" value=""></ion-input>
+        <ion-input type="number" [(ngModel)]="amount"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>Comment</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="comment"></ion-input>
       </ion-item>
     </div>
   </div>
 
   <div class="buttons-container">
-    <button ion-button color="secondary" outline large>+</button>
-    <button ion-button color="danger" outline large>-</button>
+    <button ion-button color="secondary" (click)="credit(amount)" outline large>+</button>
+    <button ion-button color="danger" (click)="debit(amount)" outline large>-</button>
   </div>
 
 </ion-content>
