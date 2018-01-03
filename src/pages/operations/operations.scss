@@ -1,3 +1,29 @@
-page-home {
+page-operations {
+
+  $margin-default: 10px;
+
+  .container {
+    margin: $margin-default;
+    display: flex;
+  }
+
+  .balance-container {
+    @extend .container;
+    justify-content: center;
+    .balance {
+      font-size: 300%;
+    }
+  }
+
+  .inputs-container {
+    @extend .container;
+  }
+
+  .buttons-container {
+    @extend .container;
+    justify-content: center;
+    flex-direction: column;
+    height: 200px;
+  }
 
 }

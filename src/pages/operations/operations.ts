@@ -6,9 +6,10 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'operations.html'
 })
 export class OperationsPage {
+  private balance: number;
 
   constructor(public navCtrl: NavController) {
-
+    this.balance = 300;
   }
 
 }
