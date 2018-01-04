@@ -15,26 +15,12 @@ export class OperationsPage {
     this.refreshBalance()
   }
 
-  credit(amount: number) {
-    if(!amount) return;
-
-    amount = Number(amount);
-    this.storage.set("balance",  this.balance + amount)
-                .then(() => {
-                  this.clear();
-                  this.refreshBalance()
-                })
+  credit(balance: number, amount: number) {
+    this.updateBalance((balance, amount) => balance + amount, balance, amount)
   }
 
-  debit(amount: number) {
-    if(!amount) return;
-
-    amount = Number(amount);
-    this.storage.set("balance", this.balance - amount )
-                .then( () => {
-                  this.clear();
-                  this.refreshBalance()
-                });
+  debit(balance: number, amount: number) {
+    this.updateBalance((balance, amount) => balance - amount, balance, amount)
   }
 
   refreshBalance() {
@@ -42,7 +28,20 @@ export class OperationsPage {
                 .then(balance => { this.balance = balance ? balance : 0 });
   }
 
-  clear() {
+  private updateBalance(fn: Function, balance: number, amount: number) {
+    if(!amount) return;
+
+    const amountNumber = Number(amount);
+    const total = fn(balance, amountNumber);
+
+    this.storage.set("balance", total )
+      .then( () => {
+        this.clear();
+        this.refreshBalance()
+      });
+  }
+
+  private clear() {
     this.amount = null;
     this.comment = null;
   }

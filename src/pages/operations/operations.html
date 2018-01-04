@@ -7,7 +7,8 @@
 <ion-content padding no-bounce>
 
   <div class="balance-container">
-    <div class="balance">{{ balance }}</div>
+    <span class="balance">{{ balance }}</span>
+    <img class="icon" src="assets/imgs/coin.png">
   </div>
 
   <div class="inputs-container">
@@ -25,8 +26,12 @@
   </div>
 
   <div class="buttons-container">
-    <button ion-button color="secondary" (click)="credit(amount)" outline large>+</button>
-    <button ion-button color="danger" (click)="debit(amount)" outline large>-</button>
+    <button ion-button class="operation-button" color="secondary" (click)="credit(balance, amount)" outline large>
+      <span class="operation-button-text">+</span>
+    </button>
+    <button ion-button class="operation-button" color="danger" (click)="debit(balance, amount)" outline large>
+      <span class="operation-button-text">-</span>
+    </button>
   </div>
 
 </ion-content>
