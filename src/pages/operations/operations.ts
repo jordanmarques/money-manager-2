@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import {BalanceProvider} from "../../providers/balance/balance-provider";
 
 @Component({
   selector: 'page-operations',
@@ -11,7 +11,7 @@ export class OperationsPage {
   comment: string;
   balance: number;
 
-  constructor(private storage: Storage) {
+  constructor(private balanceProvider: BalanceProvider) {
     this.refreshBalance()
   }
 
@@ -24,8 +24,7 @@ export class OperationsPage {
   }
 
   refreshBalance() {
-    this.storage.get("balance")
-                .then(balance => { this.balance = balance ? balance : 0 });
+    this.balanceProvider.get().then(balance => { this.balance = balance ? balance : 0 });
   }
 
   private updateBalance(fn: Function, balance: number, amount: number) {
@@ -34,7 +33,7 @@ export class OperationsPage {
     const amountNumber = Number(amount);
     const total = fn(balance, amountNumber);
 
-    this.storage.set("balance", total )
+    this.balanceProvider.update(total)
       .then( () => {
         this.clear();
         this.refreshBalance()
