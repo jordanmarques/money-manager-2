@@ -1,36 +1,40 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BalanceProvider} from "../../providers/balance/balance-provider";
+import {Operation} from "./operation";
+import {HistoryProvider} from "../../providers/history/history-provider";
 
 @Component({
   selector: 'page-operations',
   templateUrl: 'operations.html'
 })
-export class OperationsPage {
+export class OperationsPage implements OnInit {
 
-  amount: number;
-  comment: string;
+  operation: Operation;
   balance: number;
 
-  constructor(private balanceProvider: BalanceProvider) {
-    this.refreshBalance()
+  constructor(private balanceProvider: BalanceProvider, private historyProvider: HistoryProvider) {}
+
+  ngOnInit(): void {
+    this.refreshBalance();
+    this.operation = new Operation();
   }
 
-  credit(balance: number, amount: number) {
-    this.updateBalance((balance, amount) => balance + amount, balance, amount)
+  credit(balance: number, operation: Operation) {
+    this.operationButtonClicked((balance, amount) => balance + amount, balance, operation);
   }
 
-  debit(balance: number, amount: number) {
-    this.updateBalance((balance, amount) => balance - amount, balance, amount)
+  debit(balance: number, operation: Operation) {
+    this.operationButtonClicked((balance, amount) => balance - amount, balance, operation);
   }
 
-  refreshBalance() {
+  private refreshBalance() {
     this.balanceProvider.get().then(balance => { this.balance = balance ? balance : 0 });
   }
 
-  private updateBalance(fn: Function, balance: number, amount: number) {
-    if(!amount) return;
+  private updateBalance(fn: Function, balance: number, operation: Operation) {
+    if(!operation || !operation.amount) return;
 
-    const amountNumber = Number(amount);
+    const amountNumber = Number(operation.amount);
     const total = fn(balance, amountNumber);
 
     this.balanceProvider.update(total)
@@ -40,8 +44,17 @@ export class OperationsPage {
       });
   }
 
+  private saveOperation(operation: Operation) {
+    this.historyProvider.add(operation)
+  }
+
   private clear() {
-    this.amount = null;
-    this.comment = null;
+    this.operation = new Operation(null, null);
+    console.log(this.operation)
+  }
+
+  private operationButtonClicked(fn: (balance, amount) => any, balance: number, operation: Operation) {
+    this.updateBalance(fn, balance, operation);
+    this.saveOperation(operation);
   }
 }

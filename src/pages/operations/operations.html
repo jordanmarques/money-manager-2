@@ -15,21 +15,21 @@
     <div>
       <ion-item>
         <ion-label fixed>Amount</ion-label>
-        <ion-input type="number" [(ngModel)]="amount"></ion-input>
+        <ion-input type="number" [(ngModel)]="operation.amount"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>Comment</ion-label>
-        <ion-input type="text" [(ngModel)]="comment"></ion-input>
+        <ion-input type="text" [(ngModel)]="operation.comment"></ion-input>
       </ion-item>
     </div>
   </div>
 
   <div class="buttons-container">
-    <button ion-button class="operation-button" color="secondary" (click)="credit(balance, amount)" outline large>
+    <button ion-button class="operation-button" color="secondary" (click)="credit(balance, operation)" outline large>
       <span class="operation-button-text">+</span>
     </button>
-    <button ion-button class="operation-button" color="danger" (click)="debit(balance, amount)" outline large>
+    <button ion-button class="operation-button" color="danger" (click)="debit(balance, operation)" outline large>
       <span class="operation-button-text">-</span>
     </button>
   </div>
