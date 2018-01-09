@@ -9,9 +9,10 @@
 <ion-content>
   <ion-list [virtualScroll]="operations">
     <ion-item *virtualItem="let operation">
-      <ion-icon name="ionic" item-start></ion-icon>
-      {{ operation.amount }}
-      {{ operation.comment }}
+      <ion-row id="operation-line" [ngClass]="{'credit': operation.amount > 0, 'debit': operation.amount < 0}">
+        <ion-col col-3> {{ operation.amount }} €</ion-col>
+        <ion-col col-9> {{ operation.comment }} </ion-col>
+      </ion-row>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -20,22 +20,23 @@ export class OperationsPage implements OnInit {
   }
 
   credit(balance: number, operation: Operation) {
-    this.operationButtonClicked((balance, amount) => balance + amount, balance, operation);
+    this.operationButtonClicked(balance, operation);
   }
 
   debit(balance: number, operation: Operation) {
-    this.operationButtonClicked((balance, amount) => balance - amount, balance, operation);
+    operation.amount = operation.amount * -1;
+    this.operationButtonClicked(balance, operation);
   }
 
   private refreshBalance() {
     this.balanceProvider.get().then(balance => { this.balance = balance ? balance : 0 });
   }
 
-  private updateBalance(fn: Function, balance: number, operation: Operation) {
+  private updateBalance(balance: number, operation: Operation) {
     if(!operation || !operation.amount) return;
 
     const amountNumber = Number(operation.amount);
-    const total = fn(balance, amountNumber);
+    const total = balance + amountNumber;
 
     this.balanceProvider.update(total)
       .then( () => {
@@ -53,8 +54,8 @@ export class OperationsPage implements OnInit {
     console.log(this.operation)
   }
 
-  private operationButtonClicked(fn: (balance, amount) => any, balance: number, operation: Operation) {
-    this.updateBalance(fn, balance, operation);
+  private operationButtonClicked(balance: number, operation: Operation) {
+    this.updateBalance(balance, operation);
     this.saveOperation(operation);
   }
 }
