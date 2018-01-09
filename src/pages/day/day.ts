@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {BalanceProvider} from "../../providers/balance/balance-provider";
+import {DayProvider} from "../../providers/day/day-provider";
 
 @Component({
   selector: 'page-day',
@@ -8,8 +9,9 @@ import {BalanceProvider} from "../../providers/balance/balance-provider";
 export class DayPage{
 
   private dailySpend: number;
+  private dailyRemain: number;
 
-  constructor(public balanceProvider: BalanceProvider) {}
+  constructor(public balanceProvider: BalanceProvider, public dayProvider: DayProvider) {}
 
   ionViewWillEnter() {
     this.balanceProvider.get().then(balance => {
@@ -18,7 +20,19 @@ export class DayPage{
       const actualDate: number = today.getDate();
       const remainingDays: number = this.lastDayOfMonth(actualMonth) - actualDate;
 
-      this.dailySpend = Number(balance / remainingDays).toPrecision(3);
+      this.dailyRemain = Number(Number(balance / remainingDays).toPrecision(3));
+
+      this.dayProvider.save(new Date(), this.dailySpend);
+
+      this.dayProvider.byDate(new Date()).then(amount => {
+        console.log(amount);
+
+        if(!amount)
+          this.dayProvider.save(new Date(), this.dailySpend);
+
+        this.dailySpend = Number(amount);
+      })
+
     })
   }
 

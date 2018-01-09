@@ -9,8 +9,7 @@ page-day {
     height: 100%;
     .daily-spend{
       color: #fdb100;
-      -webkit-text-stroke-width: 2px;
-      -webkit-text-stroke-color: #fdb100;
+      font-weight: bold;
       font-size: 300%;
     }
   }

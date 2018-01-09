@@ -14,6 +14,8 @@ export class HistoryPage implements OnInit {
 
   ionViewWillEnter() {
     this.historyProvider.all().then(operations => {
+      if(!operations)
+        operations = [];
       this.operations = operations.reverse()
     });
   }

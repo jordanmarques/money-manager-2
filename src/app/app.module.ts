@@ -13,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {IonicStorageModule} from "@ionic/storage";
 import { BalanceProvider } from '../providers/balance/balance-provider';
 import { HistoryProvider } from '../providers/history/history-provider';
+import { DayProvider } from '../providers/day/day-provider';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { HistoryProvider } from '../providers/history/history-provider';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BalanceProvider,
-    HistoryProvider
+    HistoryProvider,
+    DayProvider
   ]
 })
 export class AppModule {}

@@ -46,12 +46,12 @@ export class OperationsPage implements OnInit {
   }
 
   private saveOperation(operation: Operation) {
+    operation.date = new Date();
     this.historyProvider.add(operation)
   }
 
   private clear() {
-    this.operation = new Operation(null, null);
-    console.log(this.operation)
+    this.operation = new Operation(null, null, null);
   }
 
   private operationButtonClicked(balance: number, operation: Operation) {
