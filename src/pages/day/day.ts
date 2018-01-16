@@ -67,7 +67,7 @@ export class DayPage {
         .map(operation => operation.amount)
         .reduce( (amount1, amount2) => Number(amount1) + Number(amount2), 0);
 
-      this.spendToday = Math.abs(this.spendToday)
+      this.spendToday = Math.abs(this.spendToday).toPrecision(3)
     })
   }
 
