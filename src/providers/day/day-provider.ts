@@ -7,7 +7,6 @@ export class DayProvider {
   private readonly KEY: string = "day";
 
   constructor(private storage: Storage) {
-    this.storage.clear();
   }
 
   all(): Promise<any> {
@@ -22,8 +21,7 @@ export class DayProvider {
       if(!days)
         days = new Map();
 
-      days.set(cleanDate, value);
-      // days[cleanDate] = value;
+      days[cleanDate] = value;
 
       this.storage.set(this.KEY, days)
     })
@@ -37,7 +35,7 @@ export class DayProvider {
         if(!days)
           resolve(null);
 
-        resolve(days.get(cleanDate));
+        resolve(days[cleanDate]);
       })
     })
   }

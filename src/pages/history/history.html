@@ -7,15 +7,5 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [virtualScroll]="operations">
-    <ion-item *virtualItem="let operation">
-      <ion-row id="operation-line" >
-        <ion-col col-3 [ngClass]="{'credit': operation.amount > 0, 'debit': operation.amount < 0}"> {{ operation.amount }} €</ion-col>
-        <ion-col col-9> {{ operation.comment }} </ion-col>
-      </ion-row>
-      <ion-row id="operation-line-date">
-        <ion-col>{{ operation.date | date: 'dd/MM/yyyy HH:mm'}}</ion-col>
-      </ion-row>
-    </ion-item>
-  </ion-list>
+  <history-table [operations]="operations"></history-table>
 </ion-content>

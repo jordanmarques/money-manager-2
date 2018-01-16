@@ -14,6 +14,7 @@ import {IonicStorageModule} from "@ionic/storage";
 import { BalanceProvider } from '../providers/balance/balance-provider';
 import { HistoryProvider } from '../providers/history/history-provider';
 import { DayProvider } from '../providers/day/day-provider';
+import {HistoryTableComponent} from "../components/history-table/history-table";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DayProvider } from '../providers/day/day-provider';
     DayPage,
     HistoryPage,
     OperationsPage,
-    TabsPage
+    TabsPage,
+    HistoryTableComponent
   ],
   imports: [
     BrowserModule,
